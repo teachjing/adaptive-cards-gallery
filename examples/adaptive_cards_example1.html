@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)https://unpkg.com/adaptivecards@2.9.0/dist/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<title>Adaptive Cards Example</title>
+
+	<script src="./Adaptive Cards Example_files/markdown-it.js.download"></script>
+
+	<style type="text/css">
+		#exampleDiv {
+			width: 250px;
+			border: solid 1px black;
+		}
+	</style>
+
+	<script type="text/javascript">
+		function renderCard() {
+
+			// author a card
+			// in practice you'll probably get this from a service
+			// see http://adaptivecards.io/samples/ for inspiration
+			var card = {
+				"type": "AdaptiveCard",
+				"version": "1.0",
+				"body": [{
+						"type": "Image",
+						"url": "https://adaptivecards.io/content/adaptive-card-50.png"
+					},
+					{
+						"type": "TextBlock",
+						"text": "Hello **Adaptive Cards!**"
+					}
+				],
+				"actions": [{
+						"type": "Action.OpenUrl",
+						"title": "Learn more",
+						"url": "https://adaptivecards.io"
+					},
+					{
+						"type": "Action.OpenUrl",
+						"title": "GitHub",
+						"url": "https://github.com/Microsoft/AdaptiveCards"
+					}
+				]
+			};
+
+			// Create an AdaptiveCard instance
+			var adaptiveCard = new AdaptiveCards.AdaptiveCard();
+
+			// Set its hostConfig property unless you want to use the default Host Config
+			// Host Config defines the style and behavior of a card
+			adaptiveCard.hostConfig = new AdaptiveCards.HostConfig({
+				fontFamily: "Segoe UI, Helvetica Neue, sans-serif"
+				// More host config options
+				// You can find example configs here: https://github.com/microsoft/AdaptiveCards/tree/main/samples/HostConfig
+			});
+
+			// Set the adaptive card's event handlers. onExecuteAction is invoked
+			// whenever an action is clicked in the card
+			adaptiveCard.onExecuteAction = function (action) {
+				alert("Ow!");
+			}
+
+			// Parse the card payload
+			adaptiveCard.parse(card);
+
+			// Render the card to an HTML element:
+			var renderedCard = adaptiveCard.render();
+
+			// And finally insert it in the page:
+			document.getElementById('exampleDiv').appendChild(renderedCard);
+		}
+	</script>
+
+</head>
+
+<body onload="renderCard()">
+	<h1>Adaptive Cards Example</h1>
+
+	<p>This example requires a build of the Adaptive Cards library.</p>
+
+	<h3>To run:</h3>
+	<code>
+		<pre>$ npm install</pre>
+		<pre>$ npm run build</pre>
+		<pre>Refresh this page</pre>
+	</code>
+
+	<h3>A card will render below</h3>
+
+	<div id="exampleDiv"><div class="ac-container ac-adaptiveCard" tabindex="0" style="display: flex; flex-direction: column; justify-content: flex-start; box-sizing: border-box; flex: 0 0 auto; padding: 15px; margin: 0px;"><div style="display: flex; align-items: flex-start; justify-content: flex-start; box-sizing: border-box; flex: 0 0 auto;"><img class="ac-image" src="./Adaptive Cards Example_files/adaptive-card-50.png" style="min-width: 0px; max-width: 100%; max-height: 100%;"></div><div class="ac-horizontal-separator" aria-hidden="true" style="height: 8px; overflow: hidden; flex: 0 0 auto; margin-right: 0px; margin-left: 0px;"></div><div class="ac-textBlock" style="overflow: hidden; font-family: &quot;Segoe UI&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size: 14px; color: rgb(51, 51, 51); font-weight: 400; text-align: left; line-height: 18.62px; white-space: nowrap; text-overflow: ellipsis; box-sizing: border-box; flex: 0 0 auto;"><p style="margin-top: 0px; width: 100%; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0px;">Hello <strong>Adaptive Cards!</strong></p>
+</div><div class="ac-horizontal-separator" aria-hidden="true" style="height: 8px; overflow: hidden; flex: 0 0 auto;"></div><div><div style="overflow: hidden;"><div class="ac-actionSet" role="menubar" style="display: flex; flex-direction: row; justify-content: flex-start;"><button aria-label="Learn more" type="button" role="menuitem" class="ac-pushButton style-default" aria-posinset="1" aria-setsize="2" style="display: flex; align-items: center; justify-content: center; flex: 0 1 auto;"><div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Learn more</div></button><div style="flex: 0 0 auto; width: 20px;"></div><button aria-label="GitHub" type="button" role="menuitem" class="ac-pushButton style-default" aria-posinset="2" aria-setsize="2" style="display: flex; align-items: center; justify-content: center; flex: 0 1 auto;"><div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">GitHub</div></button></div></div><div></div></div></div></div>
+
+<script type="text/javascript" src="./Adaptive Cards Example_files/adaptivecards.js.download"></script>
+
+
+</body></html>
