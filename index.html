@@ -88,7 +88,8 @@
 			myButton.separator = true;
 			designer.toolbar.insertElementAfter(myButton, ACDesigner.CardDesigner.ToolbarCommands.HostAppPicker);
 
-
+			/* Configure "Open Sample" tooobar button */
+			designer.sampleCatalogueUrl = window.location.origin + "/sample-catalogue.json";
 			// NOTE: Adding toolbar elements must be done BEFORE the designer is attached
 
 			/* Here's how to collapse certain panes by default:
@@ -131,7 +132,6 @@
 				name: "John Doe",
 				phone: "123-123-1234"
 			};
-
 
 		};</script>
 
