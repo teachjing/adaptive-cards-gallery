@@ -1,0 +1,7 @@
+[
+    {
+        "displayName": "My Sample Payload",
+        "cardPayloadUrl": "https://adaptivecards.io/payloads/Agenda.json",
+        "dataSampleUrl": "https://adaptivecards.io/payloads/Agenda.data.json"
+    }
+]
