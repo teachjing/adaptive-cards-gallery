@@ -1,0 +1,143 @@
+<!doctype html>
+<html><head><title>Adaptive Cards Designer</title>
+
+<script src="https://unpkg.com/adaptivecards@latest/dist/adaptivecards.min.js"></script>
+<script src="https://unpkg.com/adaptive-expressions@4/lib/browser.js"></script>
+<script src="https://unpkg.com/adaptivecards-templating@latest/dist/adaptivecards-templating.min.js"></script>
+
+<script src="https://unpkg.com/markdown-it@8.4.0/dist/markdown-it.min.js"></script>
+<style>* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+		}
+</style>
+<script src="https://unpkg.com/adaptivecards-designer@2.3.0/dist/adaptivecards-designer.js"></script>
+
+<script>window.onload = function () {
+			// Turn general support for data binding (templating) on or off. When set to false, this flag overrides showDataStructureToolbox and showSampleDataEditorToolbox.
+			ACDesigner.GlobalSettings.enableDataBindingSupport = true;
+
+			// Show or hide the "Data structure" toolbox. NOTE: the "Data structure" toolbox is currently non functional and will likely be removed in a future release
+			ACDesigner.GlobalSettings.showDataStructureToolbox = false;
+			ACDesigner.GlobalSettings.showSampleDataEditorToolbox = true;  // Show or hide the "Sample Data" toolbox.
+			ACDesigner.GlobalSettings.showVersionPicker = true;  // Show or hide the target version picker.
+
+			// Controls whether the target version should change according to the selected  host application. Each host application is associated with a maximum supported target version.
+			ACDesigner.GlobalSettings.selectedHostContainerControlsTargetVersion = true;
+
+			// Controls whether a warning message should be displayed when the selected target version is greater than the version supported by the selected host application. This warning is meant to inform the user that not all features they're designing their card with will work in the target host.
+			ACDesigner.GlobalSettings.showTargetVersionMismatchWarning = true;
+
+
+			if (!ACDesigner.SettingsManager.isLocalStorageAvailable) {
+				console.log("Local storage is not available.");
+			}
+
+			// Prepare a list of host containers
+			// This is not required. When no list is passed (empty array or null), the designer
+			// uses a default built-in host container, and the host container picker in the
+			// toolbar is hidden.
+			let hostContainers = ACDesigner.defaultMicrosoftHosts;
+			let designer = new ACDesigner.CardDesigner(hostContainers);
+
+			// The designer requires various CSS and image assets to work properly, 
+			// If you've loaded the script from a CDN it needs to know where these assets are located
+			// Use the same <VERSION> that you used above
+			designer.assetPath = "https://unpkg.com/adaptivecards-designer@2.3.0/dist";
+
+			// Change where the designer looks for assets like CSS and container images
+			//designer.assetPath = "http://localhost:8080/";
+
+			let myButton2 = new ACDesigner.ToolbarButton(
+				"myButton2",
+				"My button2",
+				null,
+				(sender) => {
+					/* Here's how to set the card payload in the designer:
+					*/
+					designer.setCard(
+						{
+							type: "AdaptiveCard",
+							version: "1.0",
+							body: [
+								{
+									type: "TextBlock",
+									text: "Hello world"
+								}
+							]
+						}
+					);
+
+					/* Set sample data (AFTER calling attachTo) */ 
+					designer.sampleData = {
+						name: "John Doe",
+						phone: "123-123-1234"
+					};
+				});
+			myButton2.separator = true;
+			designer.toolbar.insertElementAfter(myButton2, ACDesigner.CardDesigner.ToolbarCommands.HostAppPicker);
+
+			let myButton = new ACDesigner.ToolbarButton(
+				"myButton",
+				"My button",
+				null,
+				(sender) => { alert("My button was clicked"); });
+			myButton.separator = true;
+			designer.toolbar.insertElementAfter(myButton, ACDesigner.CardDesigner.ToolbarCommands.HostAppPicker);
+
+
+			// NOTE: Adding toolbar elements must be done BEFORE the designer is attached
+
+			/* Here's how to collapse certain panes by default:
+
+			designer.treeViewPane.collapse();
+			designer.jsonEditorPane.collapse();
+			*/
+
+			// NOTE: Collapsing panes/setting the card payload must be done AFTER the designer is attached
+			// Initialize monaco-editor for the JSON-editor pane.
+
+			require.config({
+				paths: {
+					'vs': 'https://unpkg.com/monaco-editor@0.29.1/min/vs'
+				}
+			});
+			require(['vs/editor/editor.main'], function () {
+				designer.monacoModuleLoaded();
+			});
+
+			designer.attachTo(document.getElementById("designerRootHost"));
+
+			/* Here's how to set the card payload in the designer:
+			*/
+			designer.setCard(
+				{
+					type: "AdaptiveCard",
+					version: "1.0",
+					body: [
+						{
+							type: "TextBlock",
+							text: "Hello world"
+						}
+					]
+				}
+			);
+
+			/* Set sample data (AFTER calling attachTo) */ 
+			designer.sampleData = {
+				name: "John Doe",
+				phone: "123-123-1234"
+			};
+
+
+		};</script>
+
+<body>
+	<div style="font-family: 'Segoe UI', sans-serif; font-size: 14px; display: flex; flex-direction: column; height: 100vh;">
+		<div id="designerRootHost"></div>
+	</div>
+</body>
+<script src="https://unpkg.com/monaco-editor@0.17.1/min/vs/loader.js"></script></html>
